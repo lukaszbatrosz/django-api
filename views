@@ -1,0 +1,27 @@
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets
+
+from api.models import Film
+from api.serializers import UserSerializer, GroupSerializer, FilmSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    
+    
+class FilmViewSet(viewsets.ModelViewSet):
+    
+    serializer_class = FilmSerializer
+    
+    def get_queryset(self):
+        film = Film.objects.filter(po_premierze=False)
+        return film
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+  
